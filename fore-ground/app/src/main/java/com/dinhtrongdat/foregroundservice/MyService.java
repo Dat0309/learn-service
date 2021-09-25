@@ -57,6 +57,8 @@ public class MyService extends Service {
 
     private void sendNotification(Song song) {
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),song.getImage());
+        Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(),R.drawable.icons8_play);
+        Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(),R.drawable.icons8_close);
 
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -65,9 +67,8 @@ public class MyService extends Service {
         remoteViews.setTextViewText(R.id.txtTitleSong, song.getTitle());
         remoteViews.setTextViewText(R.id.txtSingleSong, song.getSingle());
         remoteViews.setImageViewBitmap(R.id.img_song, bitmap);
-
-        remoteViews.setImageViewResource(R.id.btnPlay,R.drawable.ic_play_2);
-        remoteViews.setImageViewResource(R.id.btnClose,R.drawable.ic_close);
+        remoteViews.setImageViewBitmap(R.id.btnPlay,bitmap1);
+        remoteViews.setImageViewBitmap(R.id.btnClose,bitmap2);
 
         Notification notification = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
