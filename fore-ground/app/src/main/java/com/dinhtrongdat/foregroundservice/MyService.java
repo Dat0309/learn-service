@@ -15,6 +15,7 @@ import android.widget.RemoteViews;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import static com.dinhtrongdat.foregroundservice.MyApp.CHANNEL_ID;
 
@@ -22,16 +23,16 @@ public class MyService extends Service {
 
     private MediaPlayer mediaPlayer;
 
-    private static final int ACTION_PAUSE = 1;
-    private static final int ACTION_RESUME = 2;
-    private static final int ACTION_CLEAR = 3;
+    public static final int ACTION_PAUSE = 1;
+    public static final int ACTION_RESUME = 2;
+    public static final int ACTION_CLEAR = 3;
+    public static final int ACTION_START = 4;
     private boolean isPlaying;
     private Song mSong;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
     }
 
     @Override
@@ -65,6 +66,7 @@ public class MyService extends Service {
 
         mediaPlayer.start();
         isPlaying = true;
+        sendActionToActivity(ACTION_START);
     }
 
     private void handleActionMusic(int action){
@@ -79,6 +81,7 @@ public class MyService extends Service {
 
             case ACTION_CLEAR:
                 stopSelf();
+                sendActionToActivity(ACTION_CLEAR);
                 break;
         }
     }
@@ -93,6 +96,7 @@ public class MyService extends Service {
             mediaPlayer.pause();
             isPlaying = false;
             sendNotification(mSong);
+            sendActionToActivity(ACTION_PAUSE);
         }
     }
 
@@ -104,6 +108,7 @@ public class MyService extends Service {
             mediaPlayer.start();
             isPlaying = true;
             sendNotification(mSong);
+            sendActionToActivity(ACTION_RESUME);
         }
     }
 
@@ -164,6 +169,13 @@ public class MyService extends Service {
 
     private void sendActionToActivity(int action){
         Intent intent = new Intent("send_data_to_atc");
-        intent.putExtra()
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object_song", mSong);
+        bundle.putBoolean("status_player", isPlaying);
+        bundle.putInt("action_music",action);
+
+        intent.putExtras(bundle);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }
