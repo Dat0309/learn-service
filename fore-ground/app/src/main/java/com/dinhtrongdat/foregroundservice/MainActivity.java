@@ -7,11 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText edtDataIntent;
     private Button btnStartSV, btnStopSV;
+    RelativeLayout layout_bottom;
+    ImageView imgSong, imgPlay, imgClear;
+    TextView txtTitle, txtSingle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
         edtDataIntent = findViewById(R.id.edt_data_intent);
         btnStartSV = findViewById(R.id.start_service);
         btnStopSV = findViewById(R.id.stop_service);
+        layout_bottom = findViewById(R.id.layout_bottom);
+        imgSong = findViewById(R.id.img_song);
+        imgPlay = findViewById(R.id.btnPlay);
+        imgClear = findViewById(R.id.btnClose);
+        txtTitle = findViewById(R.id.txtTitleSong);
+        txtSingle = findViewById(R.id.txtSingleSong);
 
         btnStartSV.setOnClickListener(new View.OnClickListener() {
             @Override
